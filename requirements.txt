@@ -1,0 +1,6 @@
+flask~=2.0.3
+flask-login
+sqlalchemy~=1.4.32
+flask_wtf
+Werkzeug~=2.0.3
+WTForms~=3.0.1
