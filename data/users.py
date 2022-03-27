@@ -7,6 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .db_session import SqlAlchemyBase
 
 
+# класс создания таблицы бд
 class User(SqlAlchemyBase, UserMixin):
     __tablename__ = 'users'
 

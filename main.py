@@ -13,12 +13,14 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
+# начальная страница
 @app.route('/')
 def index():
     title = "Модный интернет магазин"
     return render_template('page.html', title=title)
 
 
+# регистрация
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -49,6 +51,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+# авторизация
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -64,6 +67,7 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+# выход из аккаунта
 @app.route('/logout')
 @login_required
 def logout():
