@@ -1,30 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <!--html авторизации в приложении-->
-    <h1>Авторизация</h1>
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(class="form-control", type="email") }}<br>
-            {% for error in form.email.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
+<body class="text-center">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                    <h1 class="h3 mb-3 fw-normal">Авторизация</h1>
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <p>
+                            {{ form.email(class="form-control", type="email", placeholder="Email") }}<br>
+                            {% for error in form.email.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </p>
+                        <p>
+                            {{ form.password(class="form-control", type="password", placeholder="Пароль") }}<br>
+                            {% for error in form.password.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </p>
+                        <div>{{ message }}</div>
+                        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+                    </form>
+                    </div>
                 </div>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(class="form-control", type="password") }}<br>
-            {% for error in form.password.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-            {% endfor %}
-        </p>
-        <div>{{ message }}</div>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    </form>
+            </div>
+        </div>
+    </div>
+</body>
 {% endblock %}

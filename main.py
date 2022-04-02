@@ -75,6 +75,12 @@ def logout():
     return redirect("/")
 
 
+# О нас
+@app.route('/about')
+def about():
+    return render_template('about_company.html', title='О нас')
+
+
 if __name__ == '__main__':
     db_session.global_init("db/store.db")
     app.run(port=8080, host='127.0.0.1')
