@@ -81,6 +81,12 @@ def about():
     return render_template('about_company.html', title='О нас')
 
 
+# Каталог
+@app.route('/catalog')
+def catalog():
+    return render_template('catalog.html', title='Каталог')
+
+
 if __name__ == '__main__':
     db_session.global_init("db/store.db")
     app.run(port=8080, host='127.0.0.1')

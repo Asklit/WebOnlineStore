@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+<div id="myCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
       <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -11,47 +11,83 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-
+        <img src="../static/img/carousel1.jpg" alt="">
         <div class="container">
           <div class="carousel-caption text-start">
-            <h1>Example headline.</h1>
-            <p>Some representative placeholder content for the first slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+            <h1 style="color:rgb(255, 165, 0);">Самые качественные вещи</h1>
+            <h1 style="color:rgb(255, 165, 0);">от производителей</h1>
+            <p><a class="btn btn-lg btn-primary" style="color:rgb(255, 165, 0);" href="/catalog">Выбрать</a></p>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <img src="../static/img/carousel2.jpg" alt="">
 
         <div class="container">
           <div class="carousel-caption">
-            <h1>Another example headline.</h1>
-            <p>Some representative placeholder content for the second slide of the carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+            <h1 style="color:#4A4A96;">Легко и быстро покупайте товары</h1>
+            <h1 style="color:#4A4A96;">по самым низким ценам</h1>
+            <p><a class="btn btn-lg btn-primary" style="color:rgb(255, 165, 0);" href="/catalog">Перейти в каталог</a></p>
           </div>
         </div>
       </div>
       <div class="carousel-item">
-        <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        <img class="rounded-lg-3" src="../static/img/carousel3.jpg" alt="">
 
         <div class="container">
           <div class="carousel-caption text-end">
-            <h1>One more for good measure.</h1>
-            <p>Some representative placeholder content for the third slide of this carousel.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+            <h1 style="color:#77351A;">Покупайте</h1>
+            <h1 style="color:#77351A;">в несколько кликов</h1>
+            <p><a class="btn btn-lg btn-primary" style="color:rgb(255, 165, 0);" href="/catalog">Посмотреть</a></p>
           </div>
         </div>
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
+      <span class="visually-hidden"></span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
+      <span class="visually-hidden"></span>
     </button>
+</div>
+
+
+<div class="container px-4 py-5" id="custom-cards">
+  <h2 class="pb-2 border-bottom">Категории</h2>
+
+  <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <div class="col">
+      <a href="/catalog" style="text-decoration:none;">
+      <div class="card card-cover h-400 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+           style="background-image: url('static/img/man.jpg'); height:400px;">
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h2 class="pt-5 mt-5 mb-6 display-6 lh-1 fw-bold" style="padding-left:35px;">Мужчинам</h2>
+        </div>
+      </div></a>
+    </div>
+
+    <div class="col">
+      <a href="/catalog" style="text-decoration:none;">
+      <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+           style="background-image: url('static/img/woman.jpg'); height:400px;">
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" style="padding-left:35px;">Женщинам</h2>
+        </div>
+      </div></a>
+    </div>
+
+    <div class="col">
+      <a href="/catalog" style="text-decoration:none;">
+      <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-5 shadow-lg"
+           style="background-image: url('static/img/teenager.jpg'); height:400px;">
+        <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+          <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" style="padding-left:35px;">Подросткам</h2>
+        </div>
+      </div></a>
+    </div>
+  </div>
 </div>
 
 
