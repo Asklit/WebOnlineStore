@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user
 from werkzeug.utils import redirect
 
 from data import db_session
+from data.products import Products
 from data.users import User
 from forms.LoginForm import LoginForm
 from forms.user import RegisterForm
@@ -83,10 +84,49 @@ def about():
 
 # Каталог
 @app.route('/catalog')
+@app.route('/catalog/woman')
+@app.route('/catalog/man')
+@app.route('/catalog/kids')
 def catalog():
     return render_template('catalog.html', title='Каталог')
 
 
+def add_to_bd(title, price, type_item, image_path):
+    products = Products(
+        title=title,
+        price=price,
+        type=type_item,
+        image_path=image_path
+    )
+    db_sess = db_session.create_session()
+    db_sess.add(products)
+    db_sess.commit()
+
+
 if __name__ == '__main__':
     db_session.global_init("db/store.db")
+    add_to_bd("Salendo / Куртка женская демисезонная", 4000, "woman", "salendo.png")
+    add_to_bd("My WEAR / Куртка женская", 7000, "woman", "mywear.png")
+    add_to_bd("Avrilla / Джинсы клеш", 2500, "woman", "avrilla.png")
+    add_to_bd("Salendo / Куртка женская демисезонная", 4000, "woman", "salendo.png")
+    add_to_bd("My WEAR / Куртка женская", 7000, "woman", "mywear.png")
+    add_to_bd("Avrilla / Джинсы клеш", 2500, "woman", "avrilla.png")
+    add_to_bd("Avrilla / Джинсы женские", 2000, "woman", "avrilla2.png")
+    add_to_bd("corner_more / Юбка плиссированная", 2400, "woman", "corner_more.png")
+    add_to_bd("corner_more / Чёрная мини юбка с разрезом", 2700, "woman", "corner_more2.png")
+    add_to_bd("Nikolom / Пальто", 8000, "man", "nikolom.png")
+    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
+    add_to_bd("BULANTI / Рубашка мужская в клетку", 3000, "man", "BULANTI.png")
+    add_to_bd("Wrangler / Джинсы ARIZONA", 4300, "man", "Wrangle.png")
+    add_to_bd("TOM TAILOR / Джинсы", 5900, "man", "TOM TAILOR.png")
+    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
+    add_to_bd("Avrilla / Джинсы женские", 2000, "woman", "avrilla2.png")
+    add_to_bd("corner_more / Юбка плиссированная", 2400, "woman", "corner_more.png")
+    add_to_bd("corner_more / Чёрная мини юбка с разрезом", 2700, "woman", "corner_more2.png")
+    add_to_bd("Nikolom / Пальто", 8000, "man", "nikolom.png")
+    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
+    add_to_bd("BULANTI / Рубашка мужская в клетку", 3000, "man", "BULANTI.png")
+    add_to_bd("Wrangler / Джинсы ARIZONA", 4300, "man", "Wrangle.png")
+    add_to_bd("TOM TAILOR / Джинсы", 5900, "man", "TOM TAILOR.png")
+    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
     app.run(port=8080, host='127.0.0.1')
