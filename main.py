@@ -1,12 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_login import LoginManager, login_user, login_required, logout_user
 from werkzeug.utils import redirect
 
 from data import db_session
 from data.products import Products
 from data.users import User
+from data.orders import Orders
 from forms.LoginForm import LoginForm
 from forms.user import RegisterForm
+from admin.put_items_to_db import main_add_to_bd
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -42,6 +44,13 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+
+        order = Orders(
+            id_client=user.id,
+        )
+        db_sess.add(order)
+        db_sess.commit()
+
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form)
 
@@ -84,49 +93,19 @@ def about():
 
 # Каталог
 @app.route('/catalog')
-@app.route('/catalog/woman')
-@app.route('/catalog/man')
-@app.route('/catalog/kids')
+# @app.route('/catalog/<data>')
 def catalog():
-    return render_template('catalog.html', title='Каталог')
-
-
-def add_to_bd(title, price, type_item, image_path):
-    products = Products(
-        title=title,
-        price=price,
-        type=type_item,
-        image_path=image_path
-    )
+    name_title = "Популярные товары"
     db_sess = db_session.create_session()
-    db_sess.add(products)
-    db_sess.commit()
+    list_products = []
+    for elem in db_sess.query(Products).all():
+        list_products.append([elem.title, elem.price, elem.image_path, elem.type])
+    print(list_products)
+    return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products)
 
 
 if __name__ == '__main__':
     db_session.global_init("db/store.db")
-    add_to_bd("Salendo / Куртка женская демисезонная", 4000, "woman", "salendo.png")
-    add_to_bd("My WEAR / Куртка женская", 7000, "woman", "mywear.png")
-    add_to_bd("Avrilla / Джинсы клеш", 2500, "woman", "avrilla.png")
-    add_to_bd("Salendo / Куртка женская демисезонная", 4000, "woman", "salendo.png")
-    add_to_bd("My WEAR / Куртка женская", 7000, "woman", "mywear.png")
-    add_to_bd("Avrilla / Джинсы клеш", 2500, "woman", "avrilla.png")
-    add_to_bd("Avrilla / Джинсы женские", 2000, "woman", "avrilla2.png")
-    add_to_bd("corner_more / Юбка плиссированная", 2400, "woman", "corner_more.png")
-    add_to_bd("corner_more / Чёрная мини юбка с разрезом", 2700, "woman", "corner_more2.png")
-    add_to_bd("Nikolom / Пальто", 8000, "man", "nikolom.png")
-    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
-    add_to_bd("BULANTI / Рубашка мужская в клетку", 3000, "man", "BULANTI.png")
-    add_to_bd("Wrangler / Джинсы ARIZONA", 4300, "man", "Wrangle.png")
-    add_to_bd("TOM TAILOR / Джинсы", 5900, "man", "TOM TAILOR.png")
-    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
-    add_to_bd("Avrilla / Джинсы женские", 2000, "woman", "avrilla2.png")
-    add_to_bd("corner_more / Юбка плиссированная", 2400, "woman", "corner_more.png")
-    add_to_bd("corner_more / Чёрная мини юбка с разрезом", 2700, "woman", "corner_more2.png")
-    add_to_bd("Nikolom / Пальто", 8000, "man", "nikolom.png")
-    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
-    add_to_bd("BULANTI / Рубашка мужская в клетку", 3000, "man", "BULANTI.png")
-    add_to_bd("Wrangler / Джинсы ARIZONA", 4300, "man", "Wrangle.png")
-    add_to_bd("TOM TAILOR / Джинсы", 5900, "man", "TOM TAILOR.png")
-    add_to_bd("VipDressCode / Пальто", 10000, "man", "VipDressCode.png")
+    # main_add_to_bd(db_session.create_session())
+
     app.run(port=8080, host='127.0.0.1')

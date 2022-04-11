@@ -9,6 +9,4 @@ class OrdersItems(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     id_product = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("products.id"), nullable=False)
-    order_product = orm.relation("Products", back_populates='product')
     id_client = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"), nullable=False)
-    order_user = orm.relation("Users", back_populates='user')

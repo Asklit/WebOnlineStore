@@ -10,4 +10,4 @@ class Orders(SqlAlchemyBase):
                            primary_key=True, autoincrement=True)
     status = sqlalchemy.Column(sqlalchemy.String, nullable=False, default="not paid")
     id_client = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"), nullable=False)
-    order_user = orm.relation("Users", back_populates='user')
+    user = orm.relation('User')

@@ -12,4 +12,3 @@ class Products(SqlAlchemyBase):
     price = sqlalchemy.Column(sqlalchemy.Integer, nullable=False)
     type = sqlalchemy.Column(sqlalchemy.String, nullable=False)
     image_path = sqlalchemy.Column(sqlalchemy.String, nullable=False)
-    product = orm.relation("OrdersItems", back_populates='order_product')
