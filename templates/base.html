@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="static/css/style.css">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -24,10 +23,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mr-auto mb-lg-0">
-
             <form class="d-flex">
-              <input class="form-control mr-2" type="search" placeholder="Поиск" aria-label="Search">
-              <button class="btn btn-outline-warning" type="submit">Поиск</button>
+              <input class="form-control mr-2" type="search" placeholder="Поиск" aria-label="Search" id="Search">
+              <a class="btn btn-outline-warning" href="/catalog/{{ Search }}">Поиск</a>
             </form>
           </ul>
           {% if current_user.is_authenticated %}
@@ -36,7 +34,6 @@
                 {{ current_user.name }}
               </button>
               <ul class="dropdown-menu dropdown-menu-lg-end" aria-labelledby="dropdownMenuButton2">
-                <li><a class="dropdown-item" href="#">Пофиль</a></li>
                 <li><a class="dropdown-item" href="#">Корзина</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="/logout">Выйти</a></li>

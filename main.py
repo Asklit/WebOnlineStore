@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from flask_login import LoginManager, login_user, login_required, logout_user
+from sqlalchemy import func
 from werkzeug.utils import redirect
 
 from data import db_session
@@ -92,20 +93,38 @@ def about():
 
 
 # Каталог
-@app.route('/catalog')
-# @app.route('/catalog/<data>')
+@app.route('/catalog/')
 def catalog():
-    name_title = "Популярные товары"
     db_sess = db_session.create_session()
     list_products = []
+    name_title = "Популярные товары"
     for elem in db_sess.query(Products).all():
-        list_products.append([elem.title, elem.price, elem.image_path, elem.type])
-    print(list_products)
+        list_products.append([elem.title, elem.price, elem.type, elem.image_path])
+    return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products)
+
+
+@app.route('/catalog/<data>')
+def catalog_types(data):
+    db_sess = db_session.create_session()
+    list_products = []
+    if data == "woman":
+        name_title = "Женщинам"
+        filter_data = db_sess.query(Products).filter(Products.type == data)
+    elif data == "man":
+        name_title = "Мужчинам"
+        filter_data = db_sess.query(Products).filter(Products.type == data)
+    elif data == "kids":
+        name_title = "Детям и подросткам"
+        filter_data = db_sess.query(Products).filter(Products.type == data)
+    else:
+        name_title = data
+        filter_data = db_sess.query(Products).filter(Products.type == data)
+    for elem in filter_data:
+        list_products.append([elem.title, elem.price, elem.type, elem.image_path])
     return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products)
 
 
 if __name__ == '__main__':
     db_session.global_init("db/store.db")
     # main_add_to_bd(db_session.create_session())
-
     app.run(port=8080, host='127.0.0.1')

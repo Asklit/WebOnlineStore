@@ -2,35 +2,29 @@
 
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="../static/css/catalog.css">
+<!--<link rel="stylesheet" type="text/css" href="../static/css/catalog.css">-->
 
 <section class="section-products">
     <div class="container">
-        <div class="row justify-content-center text-center">
-            <div class="col-md-8 col-lg-6">
+        <div class="row start-text">
+            <div class="col-md-8 col-lg-6" style="padding-left:25px;padding-top:20px">
                 <div class="header">
                     <h2>{{ name_title }}</h2>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="pb-2 border-bottom"></div>
+        <div class="row" style="padding-top:20px">
             {% for elem in list_products %}
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div style="background-image: url('static/img/products/' + elem[3] + elem[2]) no-repeat center; background-size: cover; transition: all 0.3s;" class="single-product">
-                        <div class="part-1">
-                            <ul>
-                                <li><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
-                                <li><a href="#"><i class="fas fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fas fa-plus"></i></a></li>
-                                <li><a href="#"><i class="fas fa-expand"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="part-2">
-                            <h3 class="product-title">{{elem[0]}}</h3>
-                            <h4 class="product-price">{{elem[1]}}</h4>
-                        </div>
+            <div class="col-md-6 col-lg-4 col-xl-3" style="padding-bottom:30px;">
+                <div class="card" style="width: 18rem;">
+                    <img src="../static/img/products/{{ elem[2] }}/{{ elem[3] }}" class="card-img-top" alt="">
+                    <div class="card-body" style="background-color:#FAEBD7">
+                        <h5 class="card-title">{{ elem[0] }}</h5>
+                        <a href="#" class="btn btn-outline-primary">Добавить в корзину</a>
                     </div>
                 </div>
+            </div>
             {% endfor %}
         </div>
     </div>
