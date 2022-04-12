@@ -29,7 +29,7 @@ def main_add_to_bd(db_session):
     add_to_bd("IMHO / Шорты", 1500, "man", "imho.jpg", db_session)
     add_to_bd("BASEWEAR / Костюм", 5700, "man", "basewear.jpg", db_session)
     add_to_bd("Бест Трикотаж / Брюки", 3300, "man", "best.jpg", db_session)
-    add_to_bd("Sherysheff / Куртка", 4400, "kids", "sherysheff.jpg", db_session)
+    add_to_bd("Sherysheff / Куртка", 4400, "kids", "sherysheff2.jpg", db_session)
     add_to_bd("LELUkids / Платье", 6900, "kids", "lelukids.jpg", db_session)
     add_to_bd("PlayToday / Джинсы", 2200, "kids", "playToday.jpg", db_session)
     add_to_bd("Hohloon / Куртка", 3000, "kids", "hohloon.jpg", db_session)
