@@ -23,9 +23,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mr-auto mb-lg-0">
-            <form class="d-flex">
-              <input class="form-control mr-2" type="search" placeholder="Поиск" aria-label="Search" id="Search">
-              <a class="btn btn-outline-warning" href="/catalog/{{ Search }}">Поиск</a>
+            <form class="form-inline" method="post">
+                {{ form.hidden_tag() }}
+                {{ form.search_string(class="form-control mr-sm-2", type="search", placeholder="Поиск") }}
+                <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Поиск</button>
             </form>
           </ul>
           {% if current_user.is_authenticated %}

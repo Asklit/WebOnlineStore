@@ -8,6 +8,7 @@ from data.products import Products
 from data.users import User
 from data.orders import Orders
 from forms.LoginForm import LoginForm
+from forms.SearchForm import SearchForm
 from forms.user import RegisterForm
 from admin.put_items_to_db import main_add_to_bd
 
@@ -18,15 +19,18 @@ login_manager.init_app(app)
 
 
 # начальная страница
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def index():
+    form = SearchForm()
+    if form.validate_on_submit():
+        return redirect(f'/catalog/{form.search_string.data}')
     title = "Модный интернет магазин"
-    return render_template('page.html', title=title)
+    return render_template('page.html', title=title, form=form)
 
 
 # регистрация
 @app.route('/register', methods=['GET', 'POST'])
-def reqister():
+def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
@@ -79,7 +83,7 @@ def login():
 
 
 # выход из аккаунта
-@app.route('/logout')
+@app.route('/logout', methods=['post', 'get'])
 @login_required
 def logout():
     logout_user()
@@ -87,24 +91,34 @@ def logout():
 
 
 # О нас
-@app.route('/about')
+@app.route('/about', methods=['post', 'get'])
 def about():
-    return render_template('about_company.html', title='О нас')
+    form = SearchForm()
+    if form.validate_on_submit():
+        return redirect(f'/catalog/{form.search_string.data}')
+    return render_template('about_company.html', title='О нас', form=form)
 
 
 # Каталог
-@app.route('/catalog/')
+@app.route('/catalog/', methods=['post', 'get'])
 def catalog():
+    form = SearchForm()
+    if form.validate_on_submit():
+        return redirect(f'/catalog/{form.search_string.data}')
     db_sess = db_session.create_session()
     list_products = []
     name_title = "Популярные товары"
     for elem in db_sess.query(Products).all():
-        list_products.append([elem.title, elem.price, elem.type, elem.image_path])
-    return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products)
+        list_products.append([elem.title, elem.price, elem.type, elem.image_path, elem.id])
+    return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products, form=form)
 
 
-@app.route('/catalog/<data>')
+@app.route('/catalog/<data>', methods=['post', 'get'])
 def catalog_types(data):
+    form = SearchForm()
+    if form.validate_on_submit():
+        print(form.catalog.data)
+        return redirect(f'/catalog/{form.search_string.data}')
     db_sess = db_session.create_session()
     list_products = []
     if data == "woman":
@@ -118,10 +132,18 @@ def catalog_types(data):
         filter_data = db_sess.query(Products).filter(Products.type == data)
     else:
         name_title = data
-        filter_data = db_sess.query(Products).filter(Products.type == data)
+        data = "%" + data + "%"
+        filter_data = db_sess.query(Products).filter(Products.title.like(data)).all()
     for elem in filter_data:
-        list_products.append([elem.title, elem.price, elem.type, elem.image_path])
-    return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products)
+        list_products.append([elem.title, elem.price, elem.type, elem.image_path, elem.id])
+    return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products, form=form)
+
+
+@app.route('/catalog/add_to_cart/<data>', methods=['post', 'get'])
+@login_required
+def add_to_cart(data):
+    print(data)
+    return redirect("/catalog/")
 
 
 if __name__ == '__main__':
