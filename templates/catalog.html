@@ -21,7 +21,11 @@
                     <img src="../static/img/products/{{ elem[2] }}/{{ elem[3] }}" class="card-img-top" alt="">
                     <div class="card-body" style="background-color:#FAEBD7">
                         <h5 class="card-title">{{ elem[0] }}</h5>
-                        <a href="/catalog/add_to_cart/{{ elem[4] }}"><button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Добавить в корзину</button></a>
+                        {% if current_user.is_authenticated %}
+                            <a href="/add_to_cart/{{ elem[4] }}" class="btn btn-outline-primary">
+                                Добавить в корзину
+                            </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

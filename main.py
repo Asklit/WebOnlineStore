@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from sqlalchemy import func
 from werkzeug.utils import redirect
 
 from data import db_session
+from data.orders_items import OrdersItems
 from data.products import Products
 from data.users import User
 from data.orders import Orders
@@ -117,7 +118,6 @@ def catalog():
 def catalog_types(data):
     form = SearchForm()
     if form.validate_on_submit():
-        print(form.catalog.data)
         return redirect(f'/catalog/{form.search_string.data}')
     db_sess = db_session.create_session()
     list_products = []
@@ -132,18 +132,61 @@ def catalog_types(data):
         filter_data = db_sess.query(Products).filter(Products.type == data)
     else:
         name_title = data
-        data = "%" + data + "%"
-        filter_data = db_sess.query(Products).filter(Products.title.like(data)).all()
-    for elem in filter_data:
-        list_products.append([elem.title, elem.price, elem.type, elem.image_path, elem.id])
+        # filter_data = db_sess.query(Products).filter(Products.title.like(data)).all()
+        filter_data = db_sess.query(Products).all()
+    if data in ["woman", "man", "kids"]:
+        for elem in filter_data:
+            list_products.append([elem.title, elem.price, elem.type, elem.image_path, elem.id])
+    else:
+        for elem in filter_data:
+            if name_title.lower() in elem.title.lower():
+                list_products.append([elem.title, elem.price, elem.type, elem.image_path, elem.id])
     return render_template('catalog.html', title='Каталог', name_title=name_title, type="all", list_products=list_products, form=form)
 
 
-@app.route('/catalog/add_to_cart/<data>', methods=['post', 'get'])
+@app.route('/add_to_cart/<data>', methods=['post', 'get'])
 @login_required
 def add_to_cart(data):
-    print(data)
+    db_sess = db_session.create_session()
+    item = OrdersItems()
+    item.id_product = data
+    id_order = db_sess.query(Orders).filter(Orders.id_client == current_user.id and Orders.status == "not paid").first()
+    item.id_client = id_order.id
+    db_sess.merge(item)
+    db_sess.commit()
     return redirect("/catalog/")
+
+
+@app.route('/delete_from_cart/<data>', methods=['post', 'get'])
+@login_required
+def delete_from_cart(data):
+    # db_sess = db_session.create_session()
+    # item = OrdersItems()
+    # item.id_product = data
+    # id_order = db_sess.query(Orders).filter(Orders.id_client == current_user.id and Orders.status == "not paid").first()
+    # item.id_client = id_order.id
+    # db_sess.merge(item)
+    # db_sess.commit()
+    return redirect("/basket")
+
+
+# Корзина
+@app.route('/basket', methods=['post', 'get'])
+@login_required
+def basket():
+    form = SearchForm()
+    if form.validate_on_submit():
+        return redirect(f'/catalog/{form.search_string.data}')
+    db_sess = db_session.create_session()
+    data = db_sess.query(Orders).filter(Orders.id_client == current_user.id and Orders.status == "not paid").first()
+    items = db_sess.query(OrdersItems).filter(OrdersItems.id_client == data.id).all()
+    list_items = []
+    total = 0
+    for i in items:
+        data = db_sess.query(Products).filter(Products.id == i.id).first()
+        total += data.price
+        list_items.append([data.title, data.title.split()[-1], data.price, data.type, data.image_path, data.id])
+    return render_template('basket.html', title='Корзина', list_items=list_items, count=len(list_items), total=total, form=form)
 
 
 if __name__ == '__main__':
