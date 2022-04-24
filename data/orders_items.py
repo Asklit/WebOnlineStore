@@ -9,4 +9,4 @@ class OrdersItems(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     id_product = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("products.id"), nullable=False)
-    id_client = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"), nullable=False)
+    id_order = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("orders.id"), nullable=False)
